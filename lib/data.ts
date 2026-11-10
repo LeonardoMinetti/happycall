@@ -25,11 +25,11 @@ export const fmt = (t: Trip) => {
 };
 
 export const hotels = [
-  { name: "Cedar Hollow Lodge", area: "Valley Town", note: "Three Keys · 2025", hue: 330 },
+  { name: "Cedar Hollow Lodge", area: "Valley Town", note: "Three Keys · 2025", hue: 215 },
   { name: "Saltmarsh House", area: "Harbor Point", note: "Two Keys · 2024", hue: 180 },
-  { name: "Vine & Lantern Inn", area: "Valley Town", note: "Two Keys · 2024", hue: 280 },
+  { name: "Vine & Lantern Inn", area: "Valley Town", note: "Two Keys · 2024", hue: 235 },
   { name: "North Ridge Hotel", area: "Valley Town", note: "Two Keys · 2024", hue: 150 },
-  { name: "The Willowmere", area: "River Bend", note: "Two Keys · 2024", hue: 300 },
+  { name: "The Willowmere", area: "River Bend", note: "Two Keys · 2024", hue: 195 },
   { name: "Copper Gate Inn", area: "Valley Town", note: "One Key · 2024–2025", hue: 130 },
   { name: "Starling Ranch", area: "Valley Town", note: "One Key · 2025", hue: 70 },
   { name: "Alder Springs Resort", area: "Hot Springs", note: "Four-Star Rating · 2026", hue: 25 },

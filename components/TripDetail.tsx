@@ -11,7 +11,7 @@ export default function TripDetail(p: { id: string; dates: string; nights: numbe
   const toggle = (n: string) => setSaved(s => { const x = new Set(s); x.has(n) ? x.delete(n) : x.add(n); return x; });
   return (
     <main className="detail">
-      <div className="eyebrow" style={{ color: "var(--accent)" }}>{live ? "● Live · submitted today" : "● Unpublished"}</div>
+      <div className="eyebrow" style={{ color: "#b5562f" }}>{live ? "● Live · submitted today" : "● Unpublished"}</div>
       <h1 className="dh1">Your {p.places.replace(" +2", " and more")} trip is {live ? "live" : "paused"}.</h1>
       <p className="dmeta">{p.dates} · {p.nights} nights · {p.adults} adults</p>
       <div className="dgrid">
@@ -49,7 +49,7 @@ export default function TripDetail(p: { id: string; dates: string; nights: numbe
         </div>
         <aside>
           <div className="next">
-            <div className="eyebrow" style={{ color: "#d9c8ea" }}>What happens next</div>
+            <div className="eyebrow" style={{ color: "#c9d6fa" }}>What happens next</div>
             <h3>Inventory and rate probe</h3><p>We query room inventory and rates at all 34 for your exact nights, and compare them with published prices.</p>
             <h3>When we find great value</h3><p>You get a private invite: the room, the total price and the cancellation terms. Invites usually go out on Tuesdays, and more often if your dates are close.</p>
             <h3>Until then</h3><p>We keep looking, and you can follow along here.</p>
