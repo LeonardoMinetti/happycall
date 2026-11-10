@@ -17,7 +17,7 @@ export default function TopNav() {
   return (
     <>
       <nav className="topnav">
-        <Link href="/" className="brand" aria-label={t("nav.home")}><Logo />Jaha</Link>
+        <Link href="/" className="brand" aria-label={t("nav.home")}><Logo height={26} /></Link>
         <Link href="/intent/new/" className="newtrip" aria-label={t("nav.newTrip")}>{t("nav.newTrip")}</Link>
         <div className="tabs">
           {tabs.map(([l, h]) => <Link key={h} href={h} aria-current={cur(h)}>{l}</Link>)}

@@ -11,7 +11,7 @@ type Ctx = {
   fmtNum: (n: number) => string;
 };
 const C = createContext<Ctx | null>(null);
-const KEY = "jaha.lang";
+const KEY = "happycall.lang";
 
 const dig = (obj: unknown, path: string): unknown =>
   path.split(".").reduce<unknown>((o, k) => (o && typeof o === "object" ? (o as Record<string, unknown>)[k] : undefined), obj);

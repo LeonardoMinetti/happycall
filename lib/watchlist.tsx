@@ -3,7 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 
 type W = { saved: string[]; has: (n: string) => boolean; toggle: (n: string) => void };
 const C = createContext<W | null>(null);
-const KEY = "jaha.watchlist";
+const KEY = "happycall.watchlist";
 
 export function WatchlistProvider({ children }: { children: React.ReactNode }) {
   const [saved, setSaved] = useState<string[]>([]);

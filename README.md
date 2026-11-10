@@ -1,11 +1,11 @@
-# Jaha (demo)
+# HappyCall (demo)
 
-Front-end-only demo of **Jaha**, a reverse booking platform for hotel stays: travelers share when they are free and hotels answer with private offers. Everything is mock data; nothing is stored on a server.
+Front-end-only demo of **HappyCall**, a reverse booking platform for hotel stays: travelers share when they are free and hotels answer with private offers. Everything is mock data; nothing is stored on a server.
 
 ## What is inside
-- `/` one-page institutional site (hero, why, journey, ideas, hotels, FAQ), EN and PT-BR
-- App pages: `/dashboard`, `/trips`, `/trips/demo-1`, `/offers`, `/intent/new`, `/watchlist`, `/settings`, `/how-it-works`, `/about`, `/for-hotels`, `/guest-demand`, `/privacy`
-- Language: English and Portuguese (pt-BR), switched with the EN/PT toggle; the choice and the demo watchlist live in `localStorage`. Copy is in `lib/dict.ts` (`pt` must match the shape of `en`).
+- `/` one-page institutional site, structured after a modern "app landing" layout: announcement bar, hero with empty phone mockups, press row, audience chips, four stacked feature cards, photo collage, about, featured offers, community and sample reviews, FAQ, newsletter and footer. EN and PT-BR.
+- App pages: `/dashboard`, `/trips`, `/trips/demo-1`, `/offers`, `/intent/new`, `/watchlist`, `/settings`, `/how-it-works`, `/about`, `/for-hotels`, `/guest-demand`, `/privacy`, `/terms`
+- Language: English and Portuguese (pt-BR) with the EN/PT toggle; the choice and the demo watchlist live in `localStorage`. All copy is in `lib/dict.ts` (`pt` must match the shape of `en`).
 
 Stack: Next.js (static export), React, Leaflet.
 
@@ -19,8 +19,13 @@ npm run dev -- -p 3111
 ```bash
 NEXT_PUBLIC_BASE_PATH=/jaha npm run build   # writes ./out (add .nojekyll)
 ```
+Use the repository name as the base path.
 
 ## Brand
-Primary colour royal blue `#3a5fd9` (`--brand`), dark `#1f3a9e`, tint `rgba(58,95,217,.15)`; coral `#c24a24` / `#e8714a` as secondary accent; fonts Bricolage Grotesque (display) and Hanken Grotesk (body).
+Logo files in `public/brand/` (full, mark, white wordmark). Colours: deep blue `#0026dd` (`--brand`), sky `#45a1fd`, navy `#02194f`, tints `#dcebff` / `#cfe3ff`; coral `#c24a24` as a small accent. Fonts: Bricolage Grotesque (display) and Hanken Grotesk (body).
 
-Placeholders to replace before any real launch: contact address `hello@jaha.example`, all product claims on the landing page and FAQ, the privacy text.
+## Images
+Photos come from Unsplash (see `CREDITS.md`). The phone mockups are empty on purpose: pass a screenshot to `<Phone src=... />` (`components/Phone.tsx`) when the product screens are ready. The "Featured in" row and the sample reviews are placeholders.
+
+## Placeholders to replace before any real launch
+Contact address `hello@happycall.example`, product claims on the landing page and FAQ, press logos, sample reviews, privacy and terms text.

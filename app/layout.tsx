@@ -8,8 +8,8 @@ const display = Bricolage_Grotesque({ variable: "--font-bricolage", subsets: ["l
 const body = Hanken_Grotesk({ variable: "--font-hanken", subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
 
 export const metadata: Metadata = {
-  title: "Jaha: private hotel offers for the trips you want to take",
-  description: "Jaha is a reverse booking platform: share when you are free and hotels send private, bookable offers. Demo site.",
+  title: "HappyCall: private hotel offers for the trips you want to take",
+  description: "HappyCall is a reverse booking platform: share when you are free and hotels send private, bookable offers. Demo site.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
