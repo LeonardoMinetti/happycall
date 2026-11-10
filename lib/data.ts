@@ -23,3 +23,16 @@ export const fmt = (t: Trip) => {
   const o: Intl.DateTimeFormatOptions = { month: "short", day: "numeric", year: "numeric" };
   return `${t.start.toLocaleDateString("en-US", o)} – ${t.end.toLocaleDateString("en-US", o)}`;
 };
+
+export const hotels = [
+  { name: "Cedar Hollow Lodge", area: "Valley Town", note: "Three Keys · 2025", hue: 330 },
+  { name: "Saltmarsh House", area: "Harbor Point", note: "Two Keys · 2024", hue: 180 },
+  { name: "Vine & Lantern Inn", area: "Valley Town", note: "Two Keys · 2024", hue: 280 },
+  { name: "North Ridge Hotel", area: "Valley Town", note: "Two Keys · 2024", hue: 150 },
+  { name: "The Willowmere", area: "River Bend", note: "Two Keys · 2024", hue: 300 },
+  { name: "Copper Gate Inn", area: "Valley Town", note: "One Key · 2024–2025", hue: 130 },
+  { name: "Starling Ranch", area: "Valley Town", note: "One Key · 2025", hue: 70 },
+  { name: "Alder Springs Resort", area: "Hot Springs", note: "Four-Star Rating · 2026", hue: 25 },
+];
+export const moreHotels = ["Oak Barrel Inn","Tidewater Lodge","Driftline Cabins","Foxglove Farm Hotel","Granite Cove Resort","Bluff House","Mistral Motor Lodge","Quail Run Inn","Seabird Landing","Hearth & Hammock"];
+export const nights = (t: Trip) => Math.round((t.end.getTime() - t.start.getTime()) / 86400000);
