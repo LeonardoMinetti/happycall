@@ -17,7 +17,7 @@ npm run dev -- -p 3111
 
 ## Build for GitHub Pages
 ```bash
-NEXT_PUBLIC_BASE_PATH=/driftwell-clone npm run build   # writes ./out (add .nojekyll)
+NEXT_PUBLIC_BASE_PATH=/jaha npm run build   # writes ./out (add .nojekyll)
 ```
 
 ## Brand
