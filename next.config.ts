@@ -2,11 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
-  async redirects() {
-    return [{ source: "/", destination: "/dashboard", permanent: false }];
-  },
+  output: "export",
+  trailingSlash: true,
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? "",
+  images: { unoptimized: true },
 };
 
 export default nextConfig;
