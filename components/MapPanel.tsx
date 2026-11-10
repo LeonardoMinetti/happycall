@@ -2,8 +2,10 @@
 import { useEffect, useRef, useState } from "react";
 import "leaflet/dist/leaflet.css";
 import { pins } from "@/lib/data";
+import { useLang } from "@/lib/i18n";
 
 export default function MapPanel() {
+  const { t } = useLang();
   const el = useRef<HTMLDivElement>(null);
   const [big, setBig] = useState(false);
   const mapRef = useRef<import("leaflet").Map | undefined>(undefined);
@@ -24,7 +26,7 @@ export default function MapPanel() {
   useEffect(() => { setTimeout(() => mapRef.current?.invalidateSize(), 50); }, [big]);
   return (
     <div className="mapwrap" style={{ height: big ? 520 : 250 }}>
-      <button className="expand" onClick={() => setBig(b => !b)}>{big ? "Collapse map" : "Expand map"}</button>
+      <button className="expand" onClick={() => setBig(b => !b)}>{big ? t("dash.collapseMap") : t("dash.expandMap")}</button>
       <div ref={el} style={{ height: "100%" }} />
     </div>
   );
