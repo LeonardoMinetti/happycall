@@ -28,6 +28,9 @@ Identity files supplied by the brand team live in `design/brand-sources/` (app i
 
 Palette: Azul Royal `#0A3BD9` (`--brand`), Salmão `#FF7A67` (`--coral`, decoration only: white text on it fails contrast), Azul Céu `#9ED7FF` (`--sky`), Areia `#FFF6EE` (`--sand`), Marinho `#0F1B4C` (`--navy`). Fonts for now: Bricolage Grotesque (display) and Hanken Grotesk (body); the identity sheets show a rounded geometric sans that is not specified yet.
 
+## Scroll effects
+Two sections on the landing page are scroll-driven (`useScrub` in `components/Landing.tsx`): "Made for travelers who:" pins its heading and shows one chip at a time as you scroll; the "It's not about searching harder" collage is scrubbed, so the photos start stacked in the centre and spread to their places while you scroll, then the text fades in. With `prefers-reduced-motion` both fall back to a static layout.
+
 ## Patterns and loose shapes
 The three brand patterns are in `public/patterns/` (`blocks`, `arches`, `waves`, each with a `-blue` variant that swaps the salmon for sky blue). Use `<Pattern name opacity blue fade />` as a decorative layer inside a `position:relative` container, `<PatternBanner />` for page headers, and `<Shape kind="quarter|half|pill|circle|wave|arch" color rotate size />` for loose pieces. Colours stay inside the palette; opacity and the `-blue` variant are the knobs.
 

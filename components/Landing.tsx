@@ -10,19 +10,33 @@ import { Shape } from "./Shape";
 import { asset } from "@/lib/asset";
 import { LangToggle, useLang } from "@/lib/i18n";
 
-function useInView<T extends HTMLElement>(threshold = 0.25) {
-  const ref = useRef<T>(null);
-  const [on, setOn] = useState(false);
+const HEADER = 78; // sticky header height, px
+
+/** Calls `cb` with 0..1 while a tall track scrolls past a pinned (sticky) child. */
+function useScrub(ref: React.RefObject<HTMLElement | null>, cb: (p: number, reduce: boolean) => void) {
+  const cbRef = useRef(cb);
+  cbRef.current = cb;
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (typeof IntersectionObserver === "undefined" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setOn(true); return; }
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); io.disconnect(); } }, { threshold });
-    io.observe(el);
-    return () => io.disconnect();
-  }, [threshold]);
-  return [ref, on] as const;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let raf = 0;
+    const run = () => {
+      raf = 0;
+      if (reduce) { cbRef.current(1, true); return; }
+      const r = el.getBoundingClientRect();
+      const total = r.height - (window.innerHeight - HEADER);
+      const p = total > 0 ? Math.min(1, Math.max(0, (HEADER - r.top) / total)) : 1;
+      cbRef.current(p, false);
+    };
+    const on = () => { if (!raf) raf = requestAnimationFrame(run); };
+    run();
+    window.addEventListener("scroll", on, { passive: true });
+    window.addEventListener("resize", on);
+    return () => { window.removeEventListener("scroll", on); window.removeEventListener("resize", on); if (raf) cancelAnimationFrame(raf); };
+  }, [ref]);
 }
+const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
 
 const COLLAGE_IMG = ["card-cabin", "card-dog", "card-couple", "card-hiker", "card-pool", "card-village"];
 const COLLAGE_POS = [
@@ -37,8 +51,10 @@ export default function Landing() {
   const [menu, setMenu] = useState(false);
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
-  const [audRef, audOn] = useInView<HTMLDivElement>(0.3);
-  const [colRef, colOn] = useInView<HTMLDivElement>(0.35);
+  const audRef = useRef<HTMLDivElement>(null);
+  const misRef = useRef<HTMLDivElement>(null);
+  const [cur, setCur] = useState(0);
+  const [still, setStill] = useState(false);
   const features = list<{ e: string; t: string; b: string }>("land.features");
   const collage = list<{ t: string; s: string }>("land.collage");
   const offers = list<{ badge: string; tags: string[]; name: string; off: string; cta: string }>("land.offers");
@@ -46,6 +62,14 @@ export default function Landing() {
   const faq = list<{ q: string; a: string }>("land.faq");
   const h1 = list<string>("land.h1"), audT = list<string>("land.audienceTitle"), faqT = list<string>("land.faqTitle"), nlT = list<string>("land.nlTitle");
   const aud = list<{ i: string; t: string }>("land.audience");
+  useScrub(audRef, (p, reduce) => { setStill(reduce); setCur(Math.min(aud.length - 1, Math.floor(p * aud.length))); });
+  useScrub(misRef, (p) => {
+    const el = misRef.current;
+    if (!el) return;
+    const q = clamp01(p / 0.62);
+    el.querySelectorAll<HTMLElement>(".pg-cc").forEach((c, i) => c.style.setProperty("--e", String(clamp01(q * 1.3 - i * 0.06))));
+    el.style.setProperty("--t", String(clamp01((p - 0.6) / 0.3)));
+  });
   const nav = [[t("land.nav.about"), "/about/"], [t("land.nav.how"), "#features"], [t("land.nav.hotels"), "/for-hotels/"], [t("land.nav.community"), "#community"], [t("land.nav.contact"), "#contact"]] as const;
   const bg = (n: string) => ({ backgroundImage: `url(${asset(`/img/${n}.jpg`)})` });
   const isAnchor = (h: string) => h.startsWith("#");
@@ -89,12 +113,20 @@ export default function Landing() {
         <div className="pg-logos">{[0, 1, 2, 3, 4, 5].map(i => <span key={i} className="pg-slot">{t("land.pressSlot")}</span>)}</div>
       </section>
 
-      <section className="pg-aud">
-        <Shape kind="pill" color="coral" size={150} rotate={-8} style={{ left: "-60px", top: "22%" }} />
-        <Shape kind="half" color="sky" size={130} rotate={12} style={{ right: "-30px", top: "16%" }} />
-        <h2>{audT[0]} <Icon name={audT[1]} className="hico" /> {audT[2]}</h2>
-        <div ref={audRef} className={`pg-chips ${audOn ? "on" : ""}`}>
-          {aud.map((a, i) => <span key={a.t} className="pg-chip" style={{ ["--i" as string]: i, ["--rot" as string]: `${i % 2 ? 2.5 : -2.5}deg` }}><Icon name={a.i} className="cico" />{a.t}</span>)}
+      <section className={`pg-aud ${still ? "still" : ""}`}>
+        <div ref={audRef} className="pg-aud-track" style={{ ["--n" as string]: aud.length }}>
+          <div className="pg-aud-stick">
+            <Shape kind="pill" color="coral" size={150} rotate={-8} style={{ left: "-60px", top: "22%" }} />
+            <Shape kind="half" color="sky" size={130} rotate={12} style={{ right: "-30px", top: "16%" }} />
+            <h2>{audT[0]} <Icon name={audT[1]} className="hico" /> {audT[2]}</h2>
+            <div className="pg-chipstage" aria-live="polite">
+              {aud.map((a, i) => (
+                <span key={a.t} className={`pg-chip ${i === cur ? "cur" : i < cur ? "past" : "next"}`} style={{ ["--rot" as string]: `${i % 2 ? 2.5 : -2.5}deg` }}>
+                  <Icon name={a.i} className="cico" />{a.t}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -108,20 +140,26 @@ export default function Landing() {
       </section>
 
       <section className="pg-mission">
-        <Shape kind="arch" color="royal" size={150} rotate={-14} style={{ left: "-40px", top: "4%" }} />
-        <Shape kind="quarter" color="coral" size={110} rotate={180} style={{ right: "-20px", top: "6%" }} />
-        <div ref={colRef} className={`pg-collage ${colOn ? "open" : ""}`}>
-          {collage.map((c, i) => {
-            const p = COLLAGE_POS[i];
-            return (
-              <figure key={c.t} className="pg-cc" style={{ ...bg(COLLAGE_IMG[i]), ["--x" as string]: `${p.x}%`, ["--y" as string]: `${p.y}%`, ["--w" as string]: `${p.w}cqw`, ["--h" as string]: `${p.h}cqw`, ["--r" as string]: `${p.r}deg`, ["--d" as string]: `${i * 70}ms` }}>
-                <figcaption><b>{c.t}</b><small>{c.s}</small></figcaption>
-              </figure>
-            );
-          })}
+        <div ref={misRef} className="pg-mis-track">
+          <div className="pg-mis-stick">
+            <Shape kind="arch" color="royal" size={150} rotate={-14} style={{ left: "-40px", top: "4%" }} />
+            <Shape kind="quarter" color="coral" size={110} rotate={180} style={{ right: "-20px", top: "6%" }} />
+            <div className="pg-collage">
+              {collage.map((c, i) => {
+                const p = COLLAGE_POS[i];
+                return (
+                  <figure key={c.t} className="pg-cc" style={{ ...bg(COLLAGE_IMG[i]), ["--x" as string]: p.x, ["--y" as string]: p.y, ["--w" as string]: `${p.w}cqw`, ["--h" as string]: `${p.h}cqw`, ["--r" as string]: p.r }}>
+                    <figcaption><b>{c.t}</b><small>{c.s}</small></figcaption>
+                  </figure>
+                );
+              })}
+            </div>
+            <div className="pg-mis-text">
+              <h2>{t("land.missionTitle")}</h2>
+              <p>{t("land.mission1")}</p><p>{t("land.mission2")}</p>
+            </div>
+          </div>
         </div>
-        <h2>{t("land.missionTitle")}</h2>
-        <p>{t("land.mission1")}</p><p>{t("land.mission2")}</p>
       </section>
 
       <section className="pg-about">
