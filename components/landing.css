@@ -184,3 +184,14 @@ html{scroll-behavior:smooth}
   .lg-only{display:none!important}.sm-only{display:block!important}
   .pg .s1,.pg .s3{display:none}
 }
+
+/* patterns + loose shapes layering */
+.pg-aud,.pg-mission,.pg-about,.pg-offers,.pg-faq,.pg-foot{position:relative;overflow:hidden}
+.pg-aud>*:not(.pat):not(.shape):not(.sp-abs),.pg-mission>*:not(.pat):not(.shape),.pg-about>*:not(.pat):not(.shape):not(.sp-abs),.pg-offers>*:not(.pat):not(.shape),.pg-faq>*:not(.pat),.pg-foot>*:not(.pat):not(.shape){position:relative;z-index:1}
+.pg-feat>.pat{z-index:0}.pg-feat>.pg-feat-t,.pg-feat>.pg-feat-p{position:relative;z-index:1}
+.pg-feat>.pat{left:35%}
+.sp-abs{position:absolute;z-index:0}
+.pg-about{max-width:none;padding:90px 24px}
+.pg-about>h2,.pg-about>p,.pg-about>a{max-width:760px;margin-left:auto;margin-right:auto}
+.pg-about>a{display:flex;width:max-content}
+@media (max-width:980px){.pg-feat>.pat{left:0;opacity:.3}}

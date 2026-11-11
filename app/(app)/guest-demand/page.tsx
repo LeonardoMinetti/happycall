@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { Pattern, Shape } from "@/components/Shape";
 import { useLang } from "@/lib/i18n";
 
 const hash = (s: string) => [...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 997, 7);
@@ -12,6 +13,8 @@ export default function GuestDemand() {
   const [res, setRes] = useState<{ n: number; where: string; a: string; b: string } | null>(null);
   return (
     <main className="demand">
+      <Pattern name="waves" opacity={0.1} fade="bottom" />
+      <Shape kind="half" color="sky" size={160} rotate={10} style={{ right: "-30px", top: "40px" }} />
       <div className="eyebrow" style={{ color: "#b5562f" }}>{t("demand.eyebrow")}</div>
       <h1><em>{fmtNum(1077)}</em> {t("demand.headline", { n: "" }).trim()}</h1>
       <p className="dsub">{t("demand.sub")}</p>

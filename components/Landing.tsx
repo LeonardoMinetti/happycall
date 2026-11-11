@@ -6,6 +6,7 @@ import Icon from "./Icon";
 import Logo from "./Logo";
 import Phone from "./Phone";
 import Sparkle from "./Sparkle";
+import { Pattern, Shape } from "./Shape";
 import { asset } from "@/lib/asset";
 import { LangToggle, useLang } from "@/lib/i18n";
 
@@ -89,6 +90,11 @@ export default function Landing() {
       </section>
 
       <section className="pg-aud">
+        <Pattern name="waves" opacity={0.07} />
+        <Shape kind="pill" color="coral" size={190} rotate={-8} style={{ left: "-40px", top: "18%" }} />
+        <Shape kind="half" color="sky" size={170} rotate={12} style={{ right: "-30px", top: "10%" }} />
+        <Shape kind="circle" color="royal" size={110} style={{ right: "8%", bottom: "8%" }} />
+        <Sparkle size={30} color="#0F1B4C" className="sp-abs" style={{ left: "12%", bottom: "14%" }} />
         <h2>{audT[0]} <Icon name={audT[1]} className="hico" /> {audT[2]}</h2>
         <div ref={audRef} className={`pg-chips ${audOn ? "on" : ""}`}>
           {aud.map((a, i) => <span key={a.t} className="pg-chip" style={{ ["--i" as string]: i, ["--rot" as string]: `${i % 2 ? 2.5 : -2.5}deg` }}><Icon name={a.i} className="cico" />{a.t}</span>)}
@@ -98,6 +104,7 @@ export default function Landing() {
       <section id="features" className="pg-feats">
         {features.map((f, i) => (
           <article key={f.t} className="pg-feat" style={{ background: FEATURE_BG[i], top: `${88 + i * 14}px` }}>
+            <Pattern name={["blocks", "waves", "arches", "blocks"][i] as "blocks" | "waves" | "arches"} opacity={i % 2 ? 0.42 : 0.5} blue={i % 2 === 0} fade="left" />
             <div className="pg-feat-t"><h3><Icon name={f.e} className="hico" /> {f.t}</h3><p>{f.b}</p></div>
             <div className="pg-feat-p"><Phone /></div>
           </article>
@@ -105,6 +112,10 @@ export default function Landing() {
       </section>
 
       <section className="pg-mission">
+        <Pattern name="blocks" opacity={0.08} />
+        <Shape kind="arch" color="royal" size={210} rotate={-14} style={{ left: "-50px", top: "6%" }} />
+        <Shape kind="quarter" color="coral" size={150} rotate={180} style={{ right: "-30px", top: "10%" }} />
+        <Shape kind="wave" color="sky" size={240} style={{ right: "2%", bottom: "8%" }} />
         <div ref={colRef} className={`pg-collage ${colOn ? "open" : ""}`}>
           {collage.map((c, i) => {
             const p = COLLAGE_POS[i];
@@ -120,12 +131,18 @@ export default function Landing() {
       </section>
 
       <section className="pg-about">
+        <Shape kind="half" color="navy" size={150} rotate={-20} style={{ left: "-40px", bottom: "20%" }} />
+        <Shape kind="pill" color="sky" size={170} rotate={14} style={{ right: "-40px", top: "16%" }} />
+        <Sparkle size={34} color="#FF7A67" className="sp-abs" style={{ right: "14%", bottom: "18%" }} />
         <h2>{t("land.aboutTitle")}</h2>
         <p>{t("land.aboutBody")}</p>
         <Link href="/about/" className="pg-pill lg">{t("land.aboutCta")}</Link>
       </section>
 
       <section className="pg-offers">
+        <Pattern name="waves" opacity={0.2} blue />
+        <Shape kind="quarter" color="royal" size={130} style={{ left: 0, top: 0 }} />
+        <Shape kind="quarter" color="coral" size={110} rotate={180} style={{ right: 0, bottom: 0 }} />
         <h2>{t("land.offersTitle")}</h2>
         <p className="lead">{t("land.offersBody")}</p>
         <div className="pg-ogrid">
@@ -158,11 +175,14 @@ export default function Landing() {
       <div className="pg-banner" style={bg("banner-van")} role="img" aria-label="" />
 
       <section id="faq" className="pg-faq">
+        <Pattern name="arches" opacity={0.1} blue />
         <h2>{faqT[0]} <Icon name={faqT[1]} className="hico" /> {faqT[2]}</h2>
         <div className="pg-qs">{faq.map(f => <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>)}</div>
       </section>
 
       <section id="contact" className="pg-foot">
+        <Pattern name="blocks" opacity={0.26} blue fade="bottom" />
+        <Shape kind="arch" color="royal" size={190} rotate={12} style={{ right: "4%", top: "-34px" }} />
         <h2>{nlT[0]} <Icon name={nlT[1]} className="hico" /> {nlT[2]}</h2>
         <form onSubmit={e => { e.preventDefault(); setSent(true); }}>
           <label htmlFor="nl">{t("land.nlLabel")}</label>

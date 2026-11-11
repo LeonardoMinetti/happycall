@@ -132,6 +132,7 @@ export const en = {
     resultTitle: "{n} travelers want to go", anywhere: "anywhere", resultIn: "to {place}", resultDates: "between {a} and {b}",
     resultNote: "Illustrative numbers for this demo.",
   },
+  notfound: { title: "This page took a different trip", body: "We could not find what you were looking for. Head back and let the right stays find you.", cta: "Back to home" },
   terms: { title: "Terms of Service", body: ["This is a demonstration site and does not provide any real service. Nothing here is an offer to sell or book accommodation.", "Hotels, prices, reviews and numbers are fictional and exist only to show how the product could look.", "A real HappyCall service would publish full terms here before launch."] },
   privacy: {
     title: "Privacy", body: [
@@ -340,6 +341,7 @@ export const pt: typeof en = {
     resultTitle: "{n} viajantes querem ir", anywhere: "a qualquer lugar", resultIn: "para {place}", resultDates: "entre {a} e {b}",
     resultNote: "Números ilustrativos para esta demo.",
   },
+  notfound: { title: "Esta página foi viajar", body: "Não encontramos o que você procurava. Volte e deixe as hospedagens certas encontrarem você.", cta: "Voltar ao início" },
   terms: { title: "Termos de Serviço", body: ["Este é um site de demonstração e não presta nenhum serviço real. Nada aqui é uma oferta de venda ou reserva de hospedagem.", "Hotéis, preços, avaliações e números são fictícios e existem apenas para mostrar como o produto poderia ser.", "Um serviço HappyCall real publicaria aqui os termos completos antes do lançamento."] },
   privacy: {
     title: "Privacidade", body: [

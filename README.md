@@ -28,6 +28,9 @@ Identity files supplied by the brand team live in `design/brand-sources/` (app i
 
 Palette: Azul Royal `#0A3BD9` (`--brand`), Salmão `#FF7A67` (`--coral`, decoration only: white text on it fails contrast), Azul Céu `#9ED7FF` (`--sky`), Areia `#FFF6EE` (`--sand`), Marinho `#0F1B4C` (`--navy`). Fonts for now: Bricolage Grotesque (display) and Hanken Grotesk (body); the identity sheets show a rounded geometric sans that is not specified yet.
 
+## Patterns and loose shapes
+The three brand patterns are in `public/patterns/` (`blocks`, `arches`, `waves`, each with a `-blue` variant that swaps the salmon for sky blue). Use `<Pattern name opacity blue fade />` as a decorative layer inside a `position:relative` container, `<PatternBanner />` for page headers, and `<Shape kind="quarter|half|pill|circle|wave|arch" color rotate size />` for loose pieces. Colours stay inside the palette; opacity and the `-blue` variant are the knobs.
+
 ## Images
 Photos come from Unsplash (see `CREDITS.md`). The phone mockups are empty on purpose: pass a screenshot to `<Phone src=... />` (`components/Phone.tsx`) when the product screens are ready. The "Featured in" row and the sample reviews are placeholders.
 
