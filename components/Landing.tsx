@@ -2,8 +2,10 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import "./landing.css";
+import Icon from "./Icon";
 import Logo from "./Logo";
 import Phone from "./Phone";
+import Sparkle from "./Sparkle";
 import { asset } from "@/lib/asset";
 import { LangToggle, useLang } from "@/lib/i18n";
 
@@ -27,7 +29,7 @@ const COLLAGE_POS = [
   { x: 41, y: 20, w: 26, h: 19, r: 3 }, { x: 31, y: 76, w: 28, h: 19, r: 2 }, { x: 76, y: 80, w: 22, h: 28, r: -4 },
 ];
 const OFFER_IMG = ["offer-resort", "offer-cabin", "offer-umbrellas"];
-const FEATURE_BG = ["#e8ebf4", "#cfe3ff", "#e8ebf4", "#cfe3ff"];
+const FEATURE_BG = ["#FFE0D8", "#CFE9FF", "#FFE0D8", "#CFE9FF"];
 
 export default function Landing() {
   const { t, list } = useLang();
@@ -42,7 +44,7 @@ export default function Landing() {
   const reviews = list<{ q: string; n: string }>("land.reviews");
   const faq = list<{ q: string; a: string }>("land.faq");
   const h1 = list<string>("land.h1"), audT = list<string>("land.audienceTitle"), faqT = list<string>("land.faqTitle"), nlT = list<string>("land.nlTitle");
-  const aud = list<string>("land.audience");
+  const aud = list<{ i: string; t: string }>("land.audience");
   const nav = [[t("land.nav.about"), "/about/"], [t("land.nav.how"), "#features"], [t("land.nav.hotels"), "/for-hotels/"], [t("land.nav.community"), "#community"], [t("land.nav.contact"), "#contact"]] as const;
   const bg = (n: string) => ({ backgroundImage: `url(${asset(`/img/${n}.jpg`)})` });
   const isAnchor = (h: string) => h.startsWith("#");
@@ -51,7 +53,7 @@ export default function Landing() {
     <div className="pg">
       <div className="pg-bar"><span>{t("land.banner")}</span><a href="#contact" className="pg-barbtn">{t("land.bannerCta")}</a></div>
       <header className="pg-head">
-        <Link href="/" aria-label="HappyCall"><Logo height={34} /></Link>
+        <Link href="/" aria-label="HappyCall"><Logo height={46} className="lg-only" /><Logo variant="hc" height={30} className="sm-only" /></Link>
         <nav className="pg-nav" aria-label="Primary">
           {nav.map(([l, h]) => (isAnchor(h) ? <a key={h} href={h}>{l}</a> : <Link key={h} href={h}>{l}</Link>))}
         </nav>
@@ -70,8 +72,9 @@ export default function Landing() {
 
       <section className="pg-hero" style={bg("hero-coast")}>
         <div className="pg-veil" />
+        <Sparkle size={34} color="#FF7A67" className="sp s1" /><Sparkle size={22} color="#fff" className="sp s2" /><Sparkle size={26} color="#0A3BD9" className="sp s3" />
         <div className="pg-hero-in">
-          <h1>{h1[0]} <span className="emo">{h1[1]}</span> {h1[2]} <span className="emo">{h1[3]}</span> {h1[4]}</h1>
+          <h1>{h1[0]} <Icon name={h1[1]} className="hico" /> {h1[2]} <Icon name={h1[3]} className="hico" /> {h1[4]}</h1>
           <div className="pg-ctas"><Link href="/intent/new/" className="pg-pill lg">{t("land.cta")}</Link><Link href="/dashboard/" className="pg-ghost">{t("land.cta2")}</Link></div>
           <p className="pg-sub">{t("land.sub")}</p>
         </div>
@@ -86,16 +89,16 @@ export default function Landing() {
       </section>
 
       <section className="pg-aud">
-        <h2>{audT[0]} <span className="emo">{audT[1]}</span> {audT[2]}</h2>
+        <h2>{audT[0]} <Icon name={audT[1]} className="hico" /> {audT[2]}</h2>
         <div ref={audRef} className={`pg-chips ${audOn ? "on" : ""}`}>
-          {aud.map((a, i) => <span key={a} className="pg-chip" style={{ ["--i" as string]: i, ["--rot" as string]: `${i % 2 ? 2.5 : -2.5}deg` }}>{a}</span>)}
+          {aud.map((a, i) => <span key={a.t} className="pg-chip" style={{ ["--i" as string]: i, ["--rot" as string]: `${i % 2 ? 2.5 : -2.5}deg` }}><Icon name={a.i} className="cico" />{a.t}</span>)}
         </div>
       </section>
 
       <section id="features" className="pg-feats">
         {features.map((f, i) => (
           <article key={f.t} className="pg-feat" style={{ background: FEATURE_BG[i], top: `${88 + i * 14}px` }}>
-            <div className="pg-feat-t"><h3><span className="emo">{f.e}</span> {f.t}</h3><p>{f.b}</p></div>
+            <div className="pg-feat-t"><h3><Icon name={f.e} className="hico" /> {f.t}</h3><p>{f.b}</p></div>
             <div className="pg-feat-p"><Phone /></div>
           </article>
         ))}
@@ -128,7 +131,7 @@ export default function Landing() {
         <div className="pg-ogrid">
           {offers.map((o, i) => (
             <article key={o.name} className="pg-offer">
-              <div className="img" style={bg(OFFER_IMG[i])}><span className="badge"><img src={asset("/brand/happycall-mark.png")} alt="" height={14} />{o.badge}</span></div>
+              <div className="img" style={bg(OFFER_IMG[i])}><span className="badge"><Sparkle size={14} color="#0A3BD9" />{o.badge}</span></div>
               <div className="tags">{o.tags.map(g => <span key={g}>{g}</span>)}</div>
               <h3>{o.name}</h3>
               <p className="off">{o.off}</p>
@@ -155,12 +158,12 @@ export default function Landing() {
       <div className="pg-banner" style={bg("banner-van")} role="img" aria-label="" />
 
       <section id="faq" className="pg-faq">
-        <h2>{faqT[0]} <span className="emo">{faqT[1]}</span> {faqT[2]}</h2>
+        <h2>{faqT[0]} <Icon name={faqT[1]} className="hico" /> {faqT[2]}</h2>
         <div className="pg-qs">{faq.map(f => <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>)}</div>
       </section>
 
       <section id="contact" className="pg-foot">
-        <h2>{nlT[0]} <span className="emo">{nlT[1]}</span> {nlT[2]}</h2>
+        <h2>{nlT[0]} <Icon name={nlT[1]} className="hico" /> {nlT[2]}</h2>
         <form onSubmit={e => { e.preventDefault(); setSent(true); }}>
           <label htmlFor="nl">{t("land.nlLabel")}</label>
           <input id="nl" type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder={t("land.nlPh")} />
@@ -174,7 +177,7 @@ export default function Landing() {
           </nav>
           <div className="pg-foot-lang"><span>{t("land.foot.lang")}</span><LangToggle /></div>
         </div>
-        <Logo height={30} />
+        <Logo height={64} />
       </section>
       <div className="pg-legal"><span>{t("land.copyright")}</span><span><Link href="/privacy/">{t("land.foot.privacy")}</Link><Link href="/terms/">{t("land.foot.terms")}</Link></span></div>
     </div>

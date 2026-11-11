@@ -11,7 +11,7 @@ export default function Phone({ className = "", src, style }: { className?: stri
           <img src={src} alt="" className="phone-shot" />
         ) : (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={asset("/brand/happycall-mark.png")} alt="" className="phone-mark" />
+          <img src={asset("/brand/happycall-appicon.png")} alt="" className="phone-mark" />
         )}
       </div>
     </div>

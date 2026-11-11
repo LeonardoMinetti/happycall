@@ -22,7 +22,11 @@ NEXT_PUBLIC_BASE_PATH=/happycall npm run build   # writes ./out (add .nojekyll)
 Use the repository name as the base path.
 
 ## Brand
-Logo files in `public/brand/` (full, mark, white wordmark). Colours: deep blue `#0026dd` (`--brand`), sky `#45a1fd`, navy `#02194f`, tints `#dcebff` / `#cfe3ff`; coral `#c24a24` as a small accent. Fonts: Bricolage Grotesque (display) and Hanken Grotesk (body).
+Identity files supplied by the brand team live in `design/brand-sources/` (app icon, logo sheet, icon library, palette). Derived, ready-to-use assets are in `public/brand/`:
+- `happycall-wordmark.png` (stacked HAPPY / CALL), `-white`, `-navy`; `happycall-hc.png` (reduced H✦C, for small sizes); `happycall-appicon.png` (also `app/icon.png`)
+- `public/brand/icons/*.png`: 45 hand-drawn line icons. Use `<Icon name="calendar" />` (`components/Icon.tsx`); colour follows `currentColor`. `<Sparkle />` draws the four-point star.
+
+Palette: Azul Royal `#0A3BD9` (`--brand`), Salmão `#FF7A67` (`--coral`, decoration only: white text on it fails contrast), Azul Céu `#9ED7FF` (`--sky`), Areia `#FFF6EE` (`--sand`), Marinho `#0F1B4C` (`--navy`). Fonts for now: Bricolage Grotesque (display) and Hanken Grotesk (body); the identity sheets show a rounded geometric sans that is not specified yet.
 
 ## Images
 Photos come from Unsplash (see `CREDITS.md`). The phone mockups are empty on purpose: pass a screenshot to `<Phone src=... />` (`components/Phone.tsx`) when the product screens are ready. The "Featured in" row and the sample reviews are placeholders.
