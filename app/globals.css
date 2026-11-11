@@ -280,3 +280,5 @@ h1,h2,h3{font-family:var(--font-display);margin:0}
 .nf-box h2{font-size:24px}
 .nf-box p{margin:0;color:var(--text-secondary)}
 .pg-pill{display:inline-flex;align-items:center;justify-content:center;height:52px;padding:0 30px;border-radius:999px;background:var(--brand);color:#fff;font-weight:700;font-size:16px}
+
+.wizreq{margin:0 0 10px;padding:8px 12px;border-radius:10px;background:var(--brand-light);color:var(--brand-dark);font-weight:700;font-size:12px}

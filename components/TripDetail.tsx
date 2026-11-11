@@ -13,6 +13,7 @@ export default function TripDetail({ trip }: { trip: Trip }) {
   const [live, setLive] = useState(true);
   const [days, setDays] = useState<number | null>(null);
   useEffect(() => setDays(Math.max(0, Math.ceil((new Date(trip.startISO).getTime() - Date.now()) / 86400000))), [trip.startISO]);
+  const notes = list<string>("detail.notes");
   const steps = list<string>("detail.steps"), subs = list<string>("detail.stepsSub");
   const nights = nightsBetween(trip.startISO, trip.endISO);
   return (
@@ -43,7 +44,7 @@ export default function TripDetail({ trip }: { trip: Trip }) {
                 <div className="himg" style={{ background: `linear-gradient(135deg,hsl(${h.hue} 35% 82%),hsl(${h.hue} 30% 70%))` }}>
                   <button className="bm" aria-pressed={wl.has(h.name)} aria-label={t("detail.save", { name: h.name })} onClick={() => wl.toggle(h.name)}>{wl.has(h.name) ? "★" : "☆"}</button>
                 </div>
-                <div className="hbody"><b>{h.name}</b><small>{h.area}</small><span>{h.note}</span></div>
+                <div className="hbody"><b>{h.name}</b><small>{h.area}</small><span>{notes[h.note]}</span></div>
               </div>
             ))}
             <Link href="/watchlist/" className="hadd"><span>+</span><b>{t("detail.addHotel")}</b><small>{t("detail.addHotelSub")}</small></Link>

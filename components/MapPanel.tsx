@@ -15,7 +15,7 @@ export default function MapPanel() {
     (async () => {
       const L = (await import("leaflet")).default;
       if (cancelled || !el.current) return;
-      map = L.map(el.current, { zoomControl: false, attributionControl: true, zoomSnap: 0.5 }).setView([36.6, -120.3], 5.5);
+      map = L.map(el.current, { zoomControl: false, attributionControl: true, zoomSnap: 0.5 }).setView([-21, -50], 3.5);
       mapRef.current = map;
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OpenStreetMap" }).addTo(map);
       pins.forEach(p => L.circleMarker([p.lat, p.lng], { radius: 9, color: "#001a9e", weight: 2, fillColor: "#0026dd", fillOpacity: .9 })

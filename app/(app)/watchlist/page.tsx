@@ -1,24 +1,25 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { catalog, regions } from "@/lib/data";
+import { catalog, regions, Stay } from "@/lib/data";
 import { useLang } from "@/lib/i18n";
 import { useWatchlist } from "@/lib/watchlist";
 
 export default function Watchlist() {
-  const { t } = useLang();
+  const { t, list } = useLang();
+  const notes = list<string>("detail.notes");
   const wl = useWatchlist();
   const [q, setQ] = useState("");
   const [sel, setSel] = useState<string[]>([]);
   const term = q.trim().toLowerCase();
   const shown = catalog.filter(h => (term ? (h.name + " " + h.region).toLowerCase().includes(term) : sel.includes(h.region)));
   const savedHotels = catalog.filter(h => wl.has(h.name));
-  const card = (h: (typeof catalog)[number]) => (
+  const card = (h: Stay) => (
     <div key={h.name} className="hcard">
       <div className="himg" style={{ background: `linear-gradient(135deg,hsl(${h.hue} 35% 82%),hsl(${h.hue} 30% 70%))` }}>
         <button className="bm" aria-pressed={wl.has(h.name)} aria-label={t("detail.save", { name: h.name })} onClick={() => wl.toggle(h.name)}>{wl.has(h.name) ? "★" : "☆"}</button>
       </div>
-      <div className="hbody"><b>{h.name}</b><small>{h.area}</small><span>{h.note}</span></div>
+      <div className="hbody"><b>{h.name}</b><small>{h.area}</small><span>{notes[h.note]}</span></div>
     </div>
   );
   return (

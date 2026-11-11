@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import "./landing.css";
 import Icon from "./Icon";
@@ -8,6 +9,8 @@ import Phone from "./Phone";
 import Sparkle from "./Sparkle";
 import { Shape } from "./Shape";
 import { asset } from "@/lib/asset";
+import { destinations } from "@/lib/data";
+import { saveRequest } from "@/lib/request";
 import { LangToggle, useLang } from "@/lib/i18n";
 
 const HEADER = 78; // sticky header height, px
@@ -38,12 +41,8 @@ function useScrub(ref: React.RefObject<HTMLElement | null>, cb: (p: number, redu
 }
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
 
-const COLLAGE_IMG = ["card-cabin", "card-dog", "card-couple", "card-hiker", "card-pool", "card-village"];
-const COLLAGE_POS = [
-  { x: 19, y: 38, w: 22, h: 30, r: -5 }, { x: 59, y: 35, w: 22, h: 30, r: 4 }, { x: 83, y: 22, w: 24, h: 17, r: -3 },
-  { x: 41, y: 20, w: 26, h: 19, r: 3 }, { x: 31, y: 76, w: 28, h: 19, r: 2 }, { x: 76, y: 80, w: 22, h: 28, r: -4 },
-];
-const OFFER_IMG = ["offer-resort", "offer-cabin", "offer-umbrellas"];
+const COLLAGE_IMG = ["card-paraty", "card-lencois", "card-floripa", "card-noronha", "card-jeri", "card-chapada"];
+const OFFER_IMG = ["offer-forte", "offer-paraty", "offer-lencois"];
 const FEATURE_BG = ["#FFE0D8", "#CFE9FF", "#FFE0D8", "#CFE9FF"];
 
 export default function Landing() {
@@ -51,6 +50,11 @@ export default function Landing() {
   const [menu, setMenu] = useState(false);
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
+  const router = useRouter();
+  const [where, setWhere] = useState("");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [guests, setGuests] = useState(1);
   const audRef = useRef<HTMLDivElement>(null);
   const misRef = useRef<HTMLDivElement>(null);
   const [cur, setCur] = useState(0);
@@ -58,7 +62,7 @@ export default function Landing() {
   const features = list<{ e: string; t: string; b: string }>("land.features");
   const collage = list<{ t: string; s: string }>("land.collage");
   const offers = list<{ badge: string; tags: string[]; name: string; off: string; cta: string }>("land.offers");
-  const reviews = list<{ q: string; n: string }>("land.reviews");
+  const guestOpt = list<string>("land.req.guestsOpt"), reqT = list<string>("land.req.title");
   const faq = list<{ q: string; a: string }>("land.faq");
   const h1 = list<string>("land.h1"), audT = list<string>("land.audienceTitle"), faqT = list<string>("land.faqTitle"), nlT = list<string>("land.nlTitle");
   const aud = list<{ i: string; t: string }>("land.audience");
@@ -66,11 +70,13 @@ export default function Landing() {
   useScrub(misRef, (p) => {
     const el = misRef.current;
     if (!el) return;
-    const q = clamp01(p / 0.62);
-    el.querySelectorAll<HTMLElement>(".pg-cc").forEach((c, i) => c.style.setProperty("--e", String(clamp01(q * 1.3 - i * 0.06))));
-    el.style.setProperty("--t", String(clamp01((p - 0.6) / 0.3)));
+    const q = clamp01(p / 0.66);
+    el.querySelectorAll<HTMLElement>(".pg-cc").forEach((c, i) => c.style.setProperty("--e", String(clamp01(q * 1.25 - i * 0.05))));
+    const tt = clamp01((p - 0.42) / 0.4);
+    el.style.setProperty("--t", String(tt));
+    el.dataset.on = tt > 0.35 ? "1" : "0";
   });
-  const nav = [[t("land.nav.about"), "/about/"], [t("land.nav.how"), "#features"], [t("land.nav.hotels"), "/for-hotels/"], [t("land.nav.community"), "#community"], [t("land.nav.contact"), "#contact"]] as const;
+  const nav = [[t("land.nav.about"), "/about/"], [t("land.nav.how"), "#features"], [t("land.nav.hotels"), "/for-hotels/"], [t("land.nav.contact"), "#contact"]] as const;
   const bg = (n: string) => ({ backgroundImage: `url(${asset(`/img/${n}.jpg`)})` });
   const isAnchor = (h: string) => h.startsWith("#");
 
@@ -95,7 +101,7 @@ export default function Landing() {
         )}
       </header>
 
-      <section className="pg-hero" style={bg("hero-coast")}>
+      <section className="pg-hero" style={bg("hero")}>
         <div className="pg-veil" />
         <Sparkle size={34} color="#FF7A67" className="sp s1" /><Sparkle size={22} color="#fff" className="sp s2" /><Sparkle size={26} color="#0A3BD9" className="sp s3" />
         <div className="pg-hero-in">
@@ -108,9 +114,26 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="pg-press">
-        <h2>{t("land.pressTitle")}</h2>
-        <div className="pg-logos">{[0, 1, 2, 3, 4, 5].map(i => <span key={i} className="pg-slot">{t("land.pressSlot")}</span>)}</div>
+      <section id="pedido" className="pg-req">
+        <h2>{reqT[0]}<span className="acc">{reqT[1]}</span>{reqT[2]}</h2>
+        <form className="pg-reqbar" onSubmit={e => { e.preventDefault(); saveRequest({ where: where.trim(), from, to, guests: guests + 1 }); router.push("/intent/new/"); }}>
+          <label className="seg grow"><Icon name="pin" className="sico" /><span className="sr">{t("land.req.where")}</span>
+            <input list="br-destinos" value={where} onChange={e => setWhere(e.target.value)} placeholder={t("land.req.wherePh")} autoComplete="off" />
+          </label>
+          <datalist id="br-destinos">{destinations.map(d => <option key={d} value={d} />)}</datalist>
+          <label className="seg"><Icon name="calendar" className="sico" /><span className="lab">{t("land.req.checkIn")}</span>
+            <input type="date" value={from} onChange={e => setFrom(e.target.value)} />
+          </label>
+          <label className="seg"><span className="lab">{t("land.req.checkOut")}</span>
+            <input type="date" value={to} min={from || undefined} onChange={e => setTo(e.target.value)} />
+          </label>
+          <label className="seg"><Icon name="traveler" className="sico" /><span className="sr">{t("land.req.guests")}</span>
+            <select value={guests} onChange={e => setGuests(Number(e.target.value))}>{guestOpt.map((g, i) => <option key={g} value={i}>{g}</option>)}</select>
+          </label>
+          <button type="submit" className="pg-pill lg">{t("land.req.cta")}</button>
+        </form>
+        <p className="free">{t("land.req.sub")}</p>
+        <small className="note">{t("land.req.hint")}</small>
       </section>
 
       <section className={`pg-aud ${still ? "still" : ""}`}>
@@ -140,35 +163,20 @@ export default function Landing() {
       </section>
 
       <section className="pg-mission">
-        <div ref={misRef} className="pg-mis-track">
+        <div ref={misRef} className="pg-mis-track" data-on="0">
           <div className="pg-mis-stick">
-            <Shape kind="arch" color="royal" size={150} rotate={-14} style={{ left: "-40px", top: "4%" }} />
-            <Shape kind="quarter" color="coral" size={110} rotate={180} style={{ right: "-20px", top: "6%" }} />
-            <div className="pg-collage">
-              {collage.map((c, i) => {
-                const p = COLLAGE_POS[i];
-                return (
-                  <figure key={c.t} className="pg-cc" style={{ ...bg(COLLAGE_IMG[i]), ["--x" as string]: p.x, ["--y" as string]: p.y, ["--w" as string]: `${p.w}cqw`, ["--h" as string]: `${p.h}cqw`, ["--r" as string]: p.r }}>
-                    <figcaption><b>{c.t}</b><small>{c.s}</small></figcaption>
-                  </figure>
-                );
-              })}
-            </div>
             <div className="pg-mis-text">
-              <h2>{t("land.missionTitle")}</h2>
-              <p>{t("land.mission1")}</p><p>{t("land.mission2")}</p>
+              <h2>{t("land.aboutTitle")}</h2>
+              <p>{t("land.aboutBody")}</p>
+              <Link href="/about/" className="pg-pill lg">{t("land.aboutCta")}</Link>
+            </div>
+            <div className="pg-cards" aria-hidden="false">
+              {collage.map((c, i) => (
+                <figure key={c.t} className="pg-cc" role="img" aria-label={`${c.t}: ${c.s}`} style={bg(COLLAGE_IMG[i])} />
+              ))}
             </div>
           </div>
         </div>
-      </section>
-
-      <section className="pg-about">
-        <Shape kind="half" color="navy" size={110} rotate={-20} style={{ left: "-30px", bottom: "20%" }} />
-        <Shape kind="pill" color="sky" size={130} rotate={14} style={{ right: "-40px", top: "18%" }} />
-        <Sparkle size={26} color="#FF7A67" className="sp-abs" style={{ right: "14%", bottom: "20%" }} />
-        <h2>{t("land.aboutTitle")}</h2>
-        <p>{t("land.aboutBody")}</p>
-        <Link href="/about/" className="pg-pill lg">{t("land.aboutCta")}</Link>
       </section>
 
       <section className="pg-offers">
@@ -191,19 +199,7 @@ export default function Landing() {
         <small className="note">{t("land.offersNote")}</small>
       </section>
 
-      <section id="community" className="pg-comm">
-        <h2>{t("land.communityTitle")}</h2>
-        <p>{t("land.communityBody")}</p>
-        <Link href="/about/" className="pg-pill">{t("land.communityCta")}</Link>
-        <div className="pg-reviews" style={bg("sky")}>
-          {reviews.map(r => (
-            <blockquote key={r.q}><span className="tag">{t("land.reviewTag")}</span><p>{r.q}</p><cite>{r.n}</cite></blockquote>
-          ))}
-        </div>
-        <small className="note">{t("land.reviewsNote")}</small>
-      </section>
-
-      <div className="pg-banner" style={bg("banner-van")} role="img" aria-label="" />
+            <div className="pg-banner" style={bg("banner")} role="img" aria-label="" />
 
       <section id="faq" className="pg-faq">
         <h2>{faqT[0]} <Icon name={faqT[1]} className="hico" /> {faqT[2]}</h2>
