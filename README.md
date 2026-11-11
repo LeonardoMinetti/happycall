@@ -17,7 +17,7 @@ npm run dev -- -p 3111
 
 ## Build for GitHub Pages
 ```bash
-NEXT_PUBLIC_BASE_PATH=/jaha npm run build   # writes ./out (add .nojekyll)
+NEXT_PUBLIC_BASE_PATH=/happycall npm run build   # writes ./out (add .nojekyll)
 ```
 Use the repository name as the base path.
 
