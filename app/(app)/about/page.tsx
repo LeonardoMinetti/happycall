@@ -1,12 +1,10 @@
 "use client";
 import Link from "next/link";
-import { PatternBanner } from "@/components/Shape";
 import { useLang } from "@/lib/i18n";
 export default function About() {
   const { t, list } = useLang();
   return (
     <main className="page prose">
-      <PatternBanner name="arches" />
       <h1 className="big">{t("about.title")}</h1>
       {list<string>("about.p").map(x => <p key={x}>{x}</p>)}
       <p><strong>{t("about.strong")}</strong></p>

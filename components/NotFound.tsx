@@ -9,7 +9,7 @@ export default function NotFound() {
   const { t } = useLang();
   return (
     <main className="nf">
-      <Pattern name="arches" opacity={0.12} blue />
+      <Pattern name="arches" opacity={0.07} blue />
       <Shape kind="quarter" color="coral" size={180} rotate={180} style={{ right: 0, bottom: 0 }} />
       <Shape kind="half" color="royal" size={160} rotate={-12} style={{ left: "-30px", top: "18%" }} />
       <div className="nf-box">

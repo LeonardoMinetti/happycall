@@ -13,8 +13,8 @@ export default function GuestDemand() {
   const [res, setRes] = useState<{ n: number; where: string; a: string; b: string } | null>(null);
   return (
     <main className="demand">
-      <Pattern name="waves" opacity={0.1} fade="bottom" />
-      <Shape kind="half" color="sky" size={160} rotate={10} style={{ right: "-30px", top: "40px" }} />
+      <Pattern name="waves" opacity={0.045} fade="bottom" />
+      <Shape kind="half" color="sky" size={120} rotate={10} style={{ right: "-30px", top: "40px" }} />
       <div className="eyebrow" style={{ color: "#b5562f" }}>{t("demand.eyebrow")}</div>
       <h1><em>{fmtNum(1077)}</em> {t("demand.headline", { n: "" }).trim()}</h1>
       <p className="dsub">{t("demand.sub")}</p>

@@ -31,6 +31,8 @@ Palette: Azul Royal `#0A3BD9` (`--brand`), Salmão `#FF7A67` (`--coral`, decorat
 ## Patterns and loose shapes
 The three brand patterns are in `public/patterns/` (`blocks`, `arches`, `waves`, each with a `-blue` variant that swaps the salmon for sky blue). Use `<Pattern name opacity blue fade />` as a decorative layer inside a `position:relative` container, `<PatternBanner />` for page headers, and `<Shape kind="quarter|half|pill|circle|wave|arch" color rotate size />` for loose pieces. Colours stay inside the palette; opacity and the `-blue` variant are the knobs.
 
+Guideline: flat identity colours (the tinted feature cards, the sky offers and footer blocks, the sand page) come first. Patterns are for sparse places only (404, the guest-demand header) and at very low opacity; do not put them behind dense content such as cards, FAQ, forms or long text.
+
 ## Images
 Photos come from Unsplash (see `CREDITS.md`). The phone mockups are empty on purpose: pass a screenshot to `<Phone src=... />` (`components/Phone.tsx`) when the product screens are ready. The "Featured in" row and the sample reviews are placeholders.
 

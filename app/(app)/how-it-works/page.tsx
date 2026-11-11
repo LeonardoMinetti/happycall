@@ -1,13 +1,11 @@
 "use client";
 import Link from "next/link";
-import { PatternBanner } from "@/components/Shape";
 import { useLang } from "@/lib/i18n";
 export default function How() {
   const { t, list } = useLang();
   const sections = list<{ t: string; b: string }>("how.sections");
   return (
     <main className="page prose">
-      <PatternBanner name="blocks" />
       <h1>{t("how.title")}</h1>
       <p className="lead">{t("how.intro")}</p>
       <p>{t("how.intro2")}</p>

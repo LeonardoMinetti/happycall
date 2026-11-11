@@ -1,12 +1,10 @@
 "use client";
 import Link from "next/link";
-import { PatternBanner } from "@/components/Shape";
 import { useLang } from "@/lib/i18n";
 export default function ForHotels() {
   const { t } = useLang();
   return (
     <main className="page prose">
-      <PatternBanner name="waves" />
       <h1 className="big">{t("hotels.title")}</h1>
       <h2>{t("hotels.s1t")}</h2><p>{t("hotels.s1b")}</p>
       <p><Link href="/guest-demand/" className="ulink">{t("hotels.s1link")}</Link></p>
